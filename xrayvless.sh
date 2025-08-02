@@ -148,7 +148,7 @@ show_deployed_protocols() {
 #====== 主菜单 ======
 while true; do
   clear
-  green "官网: sadidc.cn"
+  green "博客:blog.sddlol.ggff.net"
   green "======= VLESS Reality 一键脚本 ======="
   echo "1) 安装并配置 VLESS Reality 节点"
   echo "2) 生成 VLESS 中转链接"
