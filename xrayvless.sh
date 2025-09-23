@@ -196,9 +196,6 @@ while true; do
       check_and_install_xray
       XRAY_BIN=$(command -v xray || echo "/usr/local/bin/xray")
       read -rp "监听端口（如 443）: " PORT
-      if [! $PORT ]; then
-          PORT = $RANDOM % 65535
-      fi
       read -rp "节点备注: " REMARK
       UUID=$(cat /proc/sys/kernel/random/uuid)
       KEYS=$($XRAY_BIN x25519)
