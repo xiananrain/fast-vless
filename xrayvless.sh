@@ -130,8 +130,8 @@ install_trojan_reality() {
 
   PASSWORD=$(openssl rand -hex 8)
   KEYS=$($XRAY_BIN x25519)
-  PRIV_KEY=$(echo "$KEYS" | awk '/Private/ {print $3}')
-  PUB_KEY=$(echo "$KEYS" | awk '/Public/ {print $3}')
+  PRIV_KEY=$(echo "$KEYS" | awk '/PrivateKey:/ {print $2}')
+  PUB_KEY=$(echo "$KEYS" | awk '/Password/ {print $2}')
   SHORT_ID=$(head -c 4 /dev/urandom | xxd -p)
   SNI="icloud.cdn-apple.com"
 
@@ -199,8 +199,8 @@ while true; do
       read -rp "节点备注: " REMARK
       UUID=$(cat /proc/sys/kernel/random/uuid)
       KEYS=$($XRAY_BIN x25519)
-      PRIV_KEY=$(echo "$KEYS" | awk '/Private/ {print $3}')
-      PUB_KEY=$(echo "$KEYS" | awk '/Public/ {print $3}')
+      PRIV_KEY=$(echo "$KEYS" | awk '/PrivateKey:/ {print $2}')
+      PUB_KEY=$(echo "$KEYS" | awk '/Password/ {print $2}')
       SHORT_ID=$(head -c 4 /dev/urandom | xxd -p)
       SNI="icloud.cdn-apple.com"
 
