@@ -12,7 +12,7 @@ check_and_install_xray() {
     green "✅ Xray 已安装，跳过安装"
   else
     green "❗检测到 Xray 未安装，正在安装..."
-    bash <(curl -Ls https://lax.xx.kg/https://github.com/XTLS/Xray-install/raw/main/install-release.sh)
+    bash <(curl -Ls https://github.com/XTLS/Xray-install/raw/main/install-release.sh)
     XRAY_BIN=$(command -v xray || echo "/usr/local/bin/xray")
     if [ ! -x "$XRAY_BIN" ]; then
       red "❌ Xray 安装失败，请检查"
