@@ -283,7 +283,7 @@ EOF
       read -rp "按任意键返回菜单..."
       ;;
 
-    7)
+    8)
       show_deployed_protocols
       ;;
 
