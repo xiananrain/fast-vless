@@ -12,7 +12,7 @@ check_and_install_xray() {
     green "✅ Xray 已安装，跳过安装"
   else
     green "❗检测到 Xray 未安装，正在安装..."
-    bash <(curl -Ls https://github.com/XTLS/Xray-install/raw/main/install-release.sh)
+    bash <(curl -Ls https://lax.xx.kg/https://github.com/XTLS/Xray-install/raw/main/install-release.sh)
     XRAY_BIN=$(command -v xray || echo "/usr/local/bin/xray")
     if [ ! -x "$XRAY_BIN" ]; then
       red "❌ Xray 安装失败，请检查"
@@ -23,45 +23,13 @@ check_and_install_xray() {
 }
 #====== 流媒体解锁检测 ======
 check_streaming_unlock() {
-  green "==== 流媒体解锁检测 ===="
-
-  test_site() {
-    local name=$1 url=$2 keyword=$3
-    echo -n "检测 $name ... "
-    html=$(curl -s --max-time 10 -A "Mozilla/5.0" "$url")
-    if echo "$html" | grep -qi "$keyword"; then
-      echo "✅ 解锁"
-    else
-      echo "❌ 未解锁"
-    fi
-  }
-
-  test_site "Netflix" "https://www.netflix.com/title/80018499" "netflix"
-  test_site "Disney+" "https://www.disneyplus.com/" "disney"
-  test_site "YouTube Premium" "https://www.youtube.com/premium" "Premium"
-  test_site "ChatGPT" "https://chat.openai.com/" "OpenAI"
-  test_site "Twitch" "https://www.twitch.tv/" "Twitch"
-  test_site "HBO Max" "https://play.hbomax.com/" "HBO"
-
-  echo "=========================="
+  bash <(curl -L ip.check.place) -y
   read -rp "按任意键返回菜单..."
 }
 
 #====== IP 纯净度检测 ======
 check_ip_clean() {
-  echo "==== IP 纯净度检测 ===="
-  IP=$(curl -s https://api.ipify.org)
-  echo "本机公网 IP：$IP"
-  hosts=("openai.com" "api.openai.com" "youtube.com" "tiktok.com" "twitter.com" "wikipedia.org")
-  for h in "${hosts[@]}"; do
-    echo -n "测试 $h ... "
-    if timeout 5 curl -sI https://$h >/dev/null; then
-      echo "✅"
-    else
-      echo "❌"
-    fi
-  done
-  echo "========================"
+  bash <(curl -L ip.check.place) -y
   read -rp "按任意键返回菜单..."
 }
 
@@ -165,7 +133,7 @@ install_trojan_reality() {
   PRIV_KEY=$(echo "$KEYS" | awk '/Private/ {print $3}')
   PUB_KEY=$(echo "$KEYS" | awk '/Public/ {print $3}')
   SHORT_ID=$(head -c 4 /dev/urandom | xxd -p)
-  SNI="www.cloudflare.com"
+  SNI="icloud.cdn-apple.com"
 
   mkdir -p /usr/local/etc/xray
   cat > /usr/local/etc/xray/config.json <<EOF
@@ -207,18 +175,18 @@ EOF
 #====== 主菜单 ======
 while true; do
   clear
-  green "AD：优秀流媒体便宜小鸡：sadidc.cn"
-  green "AD：拼好机：gelxc.cloud"
-  green "======= VLESS Reality 一键脚本V4.0正式版（💩山再升级） ======="
+  green "AD：优秀流媒体便宜LXC小鸡：伤心的云 sadidc.cn"
+  green "AD：低价精品线路KVM & LXC：拼好鸽 gelxc.cloud"
+  green "AD: 大量优秀解锁 & 优化线路KVM: jia cloud jiavps.com"
+  green "======= VLESS Reality 一键脚本V5.0正式版（💩山Pro Max） ======="
   echo "1) 安装并配置 VLESS Reality 节点"  
   echo "2）生成Trojan Reality节点"
   echo "3) 生成 VLESS 中转链接"
   echo "4) 开启 BBR 加速"
-  echo "5) 测试流媒体解锁"
-  echo "6) 检查 IP 纯净度"
-  echo "7) Ookla Speedtest 测试"
-  echo "8) 卸载 Xray"
-  echo "9) 查询 Xray 已部署协议"
+  echo "5) 检查 IP 纯净度 & 流媒体解锁"
+  echo "6) Ookla Speedtest 测试"
+  echo "7) 卸载 Xray"
+  echo "8) 查询 Xray 已部署协议"
   echo "0) 退出"
   echo
   read -rp "请选择操作: " choice
@@ -299,10 +267,6 @@ EOF
       ;;
 
     6)
-      check_ip_clean
-      ;;
-
-    7)
       wget -q https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-x86_64.tgz
       tar -zxf ookla-speedtest-1.2.0-linux-x86_64.tgz
       chmod +x speedtest
@@ -311,7 +275,7 @@ EOF
       read -rp "按任意键返回菜单..."
       ;;
 
-    8)
+    7)
       systemctl stop xray
       systemctl disable xray
       rm -rf /usr/local/etc/xray /usr/local/bin/xray
@@ -319,7 +283,7 @@ EOF
       read -rp "按任意键返回菜单..."
       ;;
 
-    9)
+    7)
       show_deployed_protocols
       ;;
 
