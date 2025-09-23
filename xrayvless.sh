@@ -3,7 +3,7 @@ set -e
 #====== 彩色输出函数 (必须放前面) ======
 green() { echo -e "\033[32m$1\033[0m"; }
 red()   { echo -e "\033[31m$1\033[0m"; }
-
+yellow() { echo -e "\033[33m$1\033[0m"; } 
 #====== 安装依赖 ======
 sudo apt install -y curl wget xz-utils jq xxd >/dev/null 2>&1
 #====== 检测xray是否安装 =====
@@ -63,7 +63,7 @@ show_deployed_protocols() {
         echo "$clients" | jq -c '.[]' | while read -r client; do
           uuid=$(echo "$client" | jq -r '.id')
           remark=$(echo "$client" | jq -r '.email // "VLESS"')
-          sni=$(echo "$inbound" | jq -r '.streamSettings.realitySettings.serverNames[0] // "www.cloudflare.com"')
+          sni=$(echo "$inbound" | jq -r '.streamSettings.realitySettings.serverNames[0] // "icloud.cdn-apple.com"')
           pbk=$(echo "$inbound" | jq -r '.streamSettings.realitySettings.publicKey // "PUBKEY"')
           sid=$(echo "$inbound" | jq -r '.streamSettings.realitySettings.shortIds[0] // "SID"')
           link="vless://$uuid@$IP:$port?type=tcp&security=reality&sni=$sni&fp=chrome&pbk=$pbk&sid=$sid#$remark"
@@ -196,6 +196,9 @@ while true; do
       check_and_install_xray
       XRAY_BIN=$(command -v xray || echo "/usr/local/bin/xray")
       read -rp "监听端口（如 443）: " PORT
+      if [! $PORT ]; then
+          PORT = $RANDOM % 65535
+      fi
       read -rp "节点备注: " REMARK
       UUID=$(cat /proc/sys/kernel/random/uuid)
       KEYS=$($XRAY_BIN x25519)
