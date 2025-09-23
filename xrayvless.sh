@@ -202,7 +202,7 @@ while true; do
       PRIV_KEY=$(echo "$KEYS" | awk '/Private/ {print $3}')
       PUB_KEY=$(echo "$KEYS" | awk '/Public/ {print $3}')
       SHORT_ID=$(head -c 4 /dev/urandom | xxd -p)
-      SNI="www.cloudflare.com"
+      SNI="icloud.cdn-apple.com"
 
       mkdir -p /usr/local/etc/xray
       cat > /usr/local/etc/xray/config.json <<EOF
