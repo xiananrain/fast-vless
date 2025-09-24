@@ -167,7 +167,7 @@ EOF
   systemctl enable xray
 
   IP=$(curl -s ipv4.ip.sb || curl -s ifconfig.me)
-  LINK="trojan:/$PASSWORD@$IP:$PORT?security=reality&sni=$SNI&pbk=$PUB_KEY&sid=$SHORT_ID&type=tcp&headerType=none#aa"
+  LINK="trojan://$PASSWORD@$IP:$PORT?security=reality&sni=$SNI&pbk=$PUB_KEY&sid=$SHORT_ID&type=tcp&headerType=none#aa"
   green "✅ Trojan Reality 节点链接如下："
   echo "$LINK"
   read -rp "按任意键返回菜单..."
