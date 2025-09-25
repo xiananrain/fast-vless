@@ -1,6 +1,6 @@
 # VLESS Trojan 一键安装脚本
 
-[English](README.md)|简体中文
+[English](Readme.md)|简体中文
 
 > [!Note]
 > 中文翻译并非100%准确，因为主要基于Claude-sonnet-4。最终结果可能存在一些问题。如果您发现任何问题或认为存在错误，请提交issues以帮助改进fast-vless。
