@@ -1,7 +1,6 @@
 # VLESS Trojan 一键安装脚本
 
-> 感谢Zedware Network以及Zedware本人提供的大力支持！
-
+> 感谢Zedware Network以及Zedware本人提供的大力支持！\n
 > 感谢[拼好鸽](https://gelxc.cloud)提供的大力支持！
 
 本项目是一个轻量级、一键式的安装脚本，支持：
