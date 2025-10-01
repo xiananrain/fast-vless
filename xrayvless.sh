@@ -182,10 +182,14 @@ while true; do
 }
 EOF
 
-      systemctl daemon-reexec
-      systemctl restart xray
-      systemctl enable xray
-
+	  if [ "$OS" = "alpine" ]; then
+	      rc-service xray restart
+	      rc-update add xray default
+	  else
+	      systemctl daemon-reexec
+          systemctl restart xray
+          systemctl enable xray
+	  fi
       IP=$(curl -s ipv4.ip.sb || curl -s ifconfig.me)
       LINK="vless://$UUID@$IP:$PORT?type=tcp&security=reality&sni=$SNI&fp=chrome&pbk=$PUB_KEY&sid=$SHORT_ID#$REMARK"
       green "✅ 节点链接如下："
