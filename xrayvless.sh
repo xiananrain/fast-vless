@@ -29,7 +29,7 @@ install_dependencies() {
       ;;
     alpine)
       sudo apk update
-      sudo apk add --no-cache curl wget xz jq vim
+      sudo apk add --no-cache curl wget xz jq vim bash
       ;;
     *)
       red "不支持的系统: $OS"
@@ -42,11 +42,18 @@ install_dependencies
 
 #====== 检测xray是否安装 =====
 check_and_install_xray() {
+  OS=$(detect_os)
+  if os
   if command -v xray >/dev/null 2>&1; then
     green "✅ Xray 已安装，跳过安装"
   else
     green "❗检测到 Xray 未安装，正在安装..."
-    bash <(curl -L https://lax.xx.kg/https://github.com/Lorry-San/fast-vless/raw/main/xrayinstall.sh)
+	if [ "$OS" = "alpine" ]; then
+		bash <(curl -L https://lax.xx.kg/https://github.com/Lorry-San/fast-vless/raw/main/xrayinstall-alpine.sh)
+	else
+		bash <(curl -L https://lax.xx.kg/https://github.com/Lorry-San/fast-vless/raw/main/xrayinstall.sh)
+	fi
+    
     XRAY_BIN=$(command -v xray || echo "/usr/local/bin/xray")
     if [ ! -x "$XRAY_BIN" ]; then
       red "❌ Xray 安装失败，请检查"
