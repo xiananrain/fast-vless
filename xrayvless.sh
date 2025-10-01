@@ -14,9 +14,8 @@ detect_os() {
   fi
   echo "$OS"
 }
-
+OS=$(detect_os)
 install_dependencies() {
-  OS=$(detect_os)
   green "检测到系统: $OS，安装依赖..."
   case "$OS" in
     ubuntu|debian)
@@ -42,7 +41,6 @@ install_dependencies
 
 #====== 检测xray是否安装 =====
 check_and_install_xray() {
-  OS=$(detect_os)
   if command -v xray >/dev/null 2>&1; then
     green "✅ Xray 已安装，跳过安装"
   else
@@ -113,10 +111,14 @@ install_trojan_reality() {
 }
 EOF
 
-  systemctl daemon-reexec
-  systemctl restart xray
-  systemctl enable xray
-
+  if [ "$OS" = "alpine" ]; then
+      rc-service xray restart
+      rc-update add xray default
+  else
+      systemctl daemon-reexec
+      systemctl restart xray
+      systemctl enable xray
+  fi
   IP=$(curl -s ipv4.ip.sb || curl -s ifconfig.me)
   LINK="trojan://$PASSWORD@$IP:$PORT?security=reality&sni=$SNI&pbk=$PUB_KEY&sid=$SHORT_ID&type=tcp&headerType=none#$REMARK"
   green "✅ Trojan Reality 节点链接如下："
@@ -129,7 +131,7 @@ while true; do
   green "AD：优秀流媒体便宜LXC小鸡：伤心的云 sadidc.cn"
   green "AD：低价精品线路KVM & LXC：拼好鸽 gelxc.cloud"
   green "AD: 大量优秀解锁 & 优化线路KVM: jia cloud jiavps.com"
-  green "======= VLESS Reality 一键脚本V5.4正式版 by Lorry-San（💩山Pro Max） ======="
+  green "======= VLESS Reality 一键脚本V6.0正式版 by Lorry-San（💩山Pro Max） ======="
   echo "1) 安装并配置 VLESS Reality 节点"  
   echo "2）生成Trojan Reality节点"
   echo "3) 生成 VLESS 中转链接"
@@ -230,8 +232,15 @@ EOF
       ;;
 
     7)
-      systemctl stop xray
-      systemctl disable xray
+      if [ "$OS" = "alpine" ]; then
+	   	rc-service xray stop
+        rc-update del xray
+	  else
+	  	systemctl stop xray
+        systemctl disable xray
+	  fi
+      
+      
       rm -rf /usr/local/etc/xray /usr/local/bin/xray
       green "✅ Xray 已卸载"
       read -rp "按任意键返回菜单..."
