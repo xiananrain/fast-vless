@@ -43,7 +43,6 @@ install_dependencies
 #====== 检测xray是否安装 =====
 check_and_install_xray() {
   OS=$(detect_os)
-  if os
   if command -v xray >/dev/null 2>&1; then
     green "✅ Xray 已安装，跳过安装"
   else
@@ -119,7 +118,7 @@ EOF
   systemctl enable xray
 
   IP=$(curl -s ipv4.ip.sb || curl -s ifconfig.me)
-  LINK="trojan://$PASSWORD@$IP:$PORT?security=reality&sni=$SNI&pbk=$PUB_KEY&sid=$SHORT_ID&type=tcp&headerType=none#$REMASK"
+  LINK="trojan://$PASSWORD@$IP:$PORT?security=reality&sni=$SNI&pbk=$PUB_KEY&sid=$SHORT_ID&type=tcp&headerType=none#$REMARK"
   green "✅ Trojan Reality 节点链接如下："
   echo "$LINK"
   read -rp "按任意键返回菜单..."
